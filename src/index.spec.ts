@@ -7,7 +7,7 @@ import { assert } from 'chai'
 import RateLimiter from '.'
 
 describe('rxjs-ratelimiter', () => {
-  it('queues events according to rate limit', () => {
+  it('queues subscriptions according to rate limit', () => {
     const scheduler = new TestScheduler(assert.deepEqual)
     const limiter = new RateLimiter(2, 10, scheduler)
 
@@ -20,5 +20,27 @@ describe('rxjs-ratelimiter', () => {
     scheduler.expectObservable(limitObservable('d')).toBe('-(d|)')
     scheduler.expectObservable(limitObservable('e')).toBe('--(e|)')
     scheduler.flush()
+  })
+
+  it('queues subsequent subscriptions according to rate limit', () => {
+    const scheduler = new TestScheduler(assert.deepEqual)
+    const limiter = new RateLimiter(2, 10, scheduler)
+
+    let nObserved = 0
+    const limitObservable = value => limiter.limit(Observable.of(value))
+
+    scheduler.expectObservable(limitObservable('a')).toBe('(a|)')
+    scheduler.flush()
+    assert.equal(scheduler.now(), 0)
+    scheduler.expectObservable(limitObservable('b')).toBe('(b|)')
+    scheduler.flush()
+    assert.equal(scheduler.now(), 0)
+    scheduler.expectObservable(limitObservable('c')).toBe('-(c|)')
+    scheduler.flush()
+    assert.equal(scheduler.now(), 10)
+    scheduler.expectObservable(limitObservable('d')).toBe('-(d|)')
+    scheduler.expectObservable(limitObservable('e')).toBe('--(e|)')
+    scheduler.flush()
+    assert.equal(scheduler.now(), 20)
   })
 })
