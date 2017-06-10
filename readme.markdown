@@ -2,7 +2,7 @@
 
 [![build status](https://circleci.com/gh/ohjames/rxjs-ratelimiter.png)](https://circleci.com/gh/ohjames/rxjs-ratelimiter)
 
-An rxjs websocket library to facilitate dealing with rate limited resources (say, external REST APIs).
+An rxjs websocket library to facilitate dealing with rate limited resources (say, external REST APIs). Great for use with [@angular/http](https://www.npmjs.com/package/@angular/http).
 
 ## How to install
 
@@ -23,17 +23,18 @@ import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import RateLimiter from 'rxjs-ratelimiter'
-// allow 6 requests per second
 
 @Injectable()
 export class RateLimitedApi {
-  // make at most 6 requests every 1000ms
+  // allow at most 6 requests every 1000ms
   rateLimiter = new RateLimiter(6, 1000)
 
   constructor(private http: Http) {}
 
   makeRequest(path: string): Promise<Response> {
-    return this.rateLimiter.limit(http.get(`https://some.api/${path}`)).toPromise()
+    return this.rateLimiter.limit(
+      this.http.get(`https://some.api/${path}`)
+    ).toPromise()
   }
 }
 ```
