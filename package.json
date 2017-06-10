@@ -18,7 +18,10 @@
   ],
   "scripts": {
     "build": "tsc -p src",
-    "watch": "tsc -w -p src",
+    "build:watch": "tsc -w -p src",
+    "test": "mocha lib/*.spec.js",
+    "test:watch": "npm run test -- -w",
+    "watch": "concurrently 'npm run build:watch' 'npm run test:watch'",
     "prepublish": "npm run build"
   },
   "author": "James Pike <github@chilon.net>",
@@ -27,6 +30,11 @@
     "rxjs": "^5.4.0"
   },
   "devDependencies": {
+    "@types/chai": "^4.0.0",
+    "@types/mocha": "^2.2.41",
+    "chai": "^4.0.2",
+    "concurrently": "^3.4.0",
+    "mocha": "^3.4.2",
     "typescript": "^2.3.4"
   }
 }
