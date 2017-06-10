@@ -31,7 +31,7 @@ export class RateLimitedApi {
   constructor(private http: Http) {}
 
   makeRequest(path: string): Promise<Response> {
-    return rateLimiter.limit(http.get(`https://some.api/${path}`)).toPromise()
+    return this.rateLimiter.limit(http.get(`https://some.api/${path}`)).toPromise()
   }
 }
 ```
