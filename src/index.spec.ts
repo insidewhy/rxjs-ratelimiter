@@ -2,7 +2,7 @@ import 'mocha'
 import { Observable } from 'rxjs/Observable'
 import { TestScheduler } from 'rxjs/testing/TestScheduler'
 import 'rxjs/add/observable/of'
-import { expect, assert } from 'chai'
+import { assert } from 'chai'
 
 import RateLimiter from '.'
 
