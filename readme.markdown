@@ -1,5 +1,7 @@
 # rxjs-ratelimiter
 
+[![build status](https://circleci.com/gh/ohjames/rxjs-ratelimiter.png)](https://circleci.com/gh/ohjames/rxjs-ratelimiter)
+
 An rxjs websocket library to facilitate dealing with rate limited resources (say, external REST APIs).
 
 ## How to install
