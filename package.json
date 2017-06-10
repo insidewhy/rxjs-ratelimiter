@@ -1,0 +1,32 @@
+{
+  "name": "rxjs-ratelimiter",
+  "version": "0.1.0",
+  "description": "rxjs 5 rate limiter",
+  "main": "lib/index.js",
+  "typings": "lib/index",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ohjames/rxjs-ratelimiter.git"
+  },
+  "keywords": [
+    "rxjs",
+    "rate",
+    "limit",
+    "limiter",
+    "ratelimit",
+    "ratelimiter"
+  ],
+  "scripts": {
+    "build": "tsc -p src",
+    "watch": "tsc -w -p src",
+    "prepublish": "npm run build"
+  },
+  "author": "James Pike <github@chilon.net>",
+  "license": "ISC",
+  "dependencies": {
+    "rxjs": "^5.4.0"
+  },
+  "devDependencies": {
+    "typescript": "^2.3.4"
+  }
+}
