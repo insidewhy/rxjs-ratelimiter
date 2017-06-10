@@ -7,40 +7,47 @@ import { assert } from 'chai'
 import RateLimiter from '.'
 
 describe('rxjs-ratelimiter', () => {
+  let scheduler: TestScheduler
+  let expect: typeof scheduler.expectObservable
+  let flush: typeof scheduler.flush
+  beforeEach(() => {
+    scheduler = new TestScheduler(assert.deepEqual)
+    expect = scheduler.expectObservable.bind(scheduler)
+    flush = scheduler.flush.bind(scheduler)
+  })
+
   it('queues subscriptions according to rate limit', () => {
-    const scheduler = new TestScheduler(assert.deepEqual)
     const limiter = new RateLimiter(2, 10, scheduler)
 
     let nObserved = 0
     const limitObservable = value => limiter.limit(Observable.of(value))
 
-    scheduler.expectObservable(limitObservable('a')).toBe('(a|)')
-    scheduler.expectObservable(limitObservable('b')).toBe('(b|)')
-    scheduler.expectObservable(limitObservable('c')).toBe('-(c|)')
-    scheduler.expectObservable(limitObservable('d')).toBe('-(d|)')
-    scheduler.expectObservable(limitObservable('e')).toBe('--(e|)')
-    scheduler.flush()
+    expect(limitObservable('a')).toBe('(a|)')
+    expect(limitObservable('b')).toBe('(b|)')
+    expect(limitObservable('c')).toBe('-(c|)')
+    expect(limitObservable('d')).toBe('-(d|)')
+    expect(limitObservable('e')).toBe('--(e|)')
+    flush()
   })
 
   it('queues subsequent subscriptions according to rate limit', () => {
-    const scheduler = new TestScheduler(assert.deepEqual)
     const limiter = new RateLimiter(2, 10, scheduler)
 
     let nObserved = 0
     const limitObservable = value => limiter.limit(Observable.of(value))
 
-    scheduler.expectObservable(limitObservable('a')).toBe('(a|)')
-    scheduler.flush()
+    expect(limitObservable('a')).toBe('(a|)')
+    flush()
     assert.equal(scheduler.now(), 0)
-    scheduler.expectObservable(limitObservable('b')).toBe('(b|)')
-    scheduler.flush()
+    expect(limitObservable('b')).toBe('(b|)')
+    flush()
     assert.equal(scheduler.now(), 0)
-    scheduler.expectObservable(limitObservable('c')).toBe('-(c|)')
-    scheduler.flush()
+    expect(limitObservable('c')).toBe('-(c|)')
+    flush()
     assert.equal(scheduler.now(), 10)
-    scheduler.expectObservable(limitObservable('d')).toBe('-(d|)')
-    scheduler.expectObservable(limitObservable('e')).toBe('--(e|)')
-    scheduler.flush()
+    expect(limitObservable('d')).toBe('-(d|)')
+    expect(limitObservable('e')).toBe('--(e|)')
+    flush()
     assert.equal(scheduler.now(), 20)
   })
 })
