@@ -16,7 +16,19 @@ describe('rxjs-ratelimiter', () => {
     flush = scheduler.flush.bind(scheduler)
   })
 
-  it('queues subscriptions according to rate limit', () => {
+  it('queues subscriptions according to rate limit of 1 request per 10 ticks', () => {
+    const limiter = new RateLimiter(1, 10, scheduler)
+
+    let nObserved = 0
+    const limitObservable = value => limiter.limit(Observable.of(value))
+
+    expect(limitObservable('a')).toBe('(a|)')
+    expect(limitObservable('b')).toBe('-(b|)')
+    expect(limitObservable('c')).toBe('--(c|)')
+    flush()
+  })
+
+  it('queues subscriptions according to rate limit of 2 requests per 10 ticks', () => {
     const limiter = new RateLimiter(2, 10, scheduler)
 
     let nObserved = 0
@@ -30,7 +42,7 @@ describe('rxjs-ratelimiter', () => {
     flush()
   })
 
-  it('queues subsequent subscriptions according to rate limit', () => {
+  it('queues subsequent subscriptions according to rate limit of 2 requests per 10 ticks', () => {
     const limiter = new RateLimiter(2, 10, scheduler)
 
     let nObserved = 0
