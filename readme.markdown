@@ -40,3 +40,14 @@ export class RateLimitedApi {
 ```
 
 `rateLimiter.limit` returns an observable that rate limits the subscription to the passed observable. To understand how this works it is important to realise that cold observables (such as those created by `http.get` etc.) create requests lazily when subscribed to, not when they are instantiated (e.g. when `http.get` is run).
+
+## Retrying requests
+
+```javascript
+const rateLimiter = new RateLimiter(1, 1000)
+return rateLimiter.limit(
+  this.http.get(`https://some.api/`)
+).retry(999)
+```
+
+This will produce an observable that will retry the HTTP request until 1000 requests have failed with each retry also being rated limited. In this example each request will happen once per second, less if the rate limiter is being used for other requests.

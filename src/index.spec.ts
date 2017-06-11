@@ -2,6 +2,8 @@ import 'mocha'
 import { Observable } from 'rxjs/Observable'
 import { TestScheduler } from 'rxjs/testing/TestScheduler'
 import 'rxjs/add/observable/of'
+import 'rxjs/add/operator/mergeMap'
+import 'rxjs/add/operator/retry'
 import { assert } from 'chai'
 
 import RateLimiter from '.'
@@ -10,16 +12,16 @@ describe('rxjs-ratelimiter', () => {
   let scheduler: TestScheduler
   let expect: typeof scheduler.expectObservable
   let flush: typeof scheduler.flush
+  let cold: typeof scheduler.createColdObservable
   beforeEach(() => {
     scheduler = new TestScheduler(assert.deepEqual)
     expect = scheduler.expectObservable.bind(scheduler)
     flush = scheduler.flush.bind(scheduler)
+    cold = scheduler.createColdObservable.bind(scheduler)
   })
 
   it('queues subscriptions according to rate limit of 1 request per 10 ticks', () => {
     const limiter = new RateLimiter(1, 10, scheduler)
-
-    let nObserved = 0
     const limitObservable = value => limiter.limit(Observable.of(value))
 
     expect(limitObservable('a')).toBe('(a|)')
@@ -30,8 +32,6 @@ describe('rxjs-ratelimiter', () => {
 
   it('queues subscriptions according to rate limit of 2 requests per 10 ticks', () => {
     const limiter = new RateLimiter(2, 10, scheduler)
-
-    let nObserved = 0
     const limitObservable = value => limiter.limit(Observable.of(value))
 
     expect(limitObservable('a')).toBe('(a|)')
@@ -44,8 +44,6 @@ describe('rxjs-ratelimiter', () => {
 
   it('queues subsequent subscriptions according to rate limit of 2 requests per 10 ticks', () => {
     const limiter = new RateLimiter(2, 10, scheduler)
-
-    let nObserved = 0
     const limitObservable = value => limiter.limit(Observable.of(value))
 
     expect(limitObservable('a')).toBe('(a|)')
@@ -61,5 +59,17 @@ describe('rxjs-ratelimiter', () => {
     expect(limitObservable('e')).toBe('--(e|)')
     flush()
     assert.equal(scheduler.now(), 20)
+  })
+
+  it('queues retry after original according to rate limit', () => {
+    const limiter = new RateLimiter(1, 20, scheduler)
+    let iteration = 0
+
+    expect(limiter.limit(
+      // this observable fails the first two times it is subscribed to
+      Observable.of(null)
+      .mergeMap(() => ++iteration === 3 ? cold('a|') : cold('#'))
+    ).retry(2)).toBe('----a|')
+    flush()
   })
 })
