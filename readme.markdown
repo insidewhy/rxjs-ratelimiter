@@ -47,7 +47,9 @@ export class RateLimitedApi {
 The rate limiter introduces the delay lazily at subscription time. This means that rxjs operators that can resubscribe such as [retry](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-retry) will also have their retries rate limited.
 
 ```javascript
-return this.rateLimiter.limit(this.http.get(`https://some.api/`)).retry(999)
+this.rateLimiter.limit(
+  this.http.get(`https://some.api/`)
+).retry(999)
 ```
 
 This will produce an observable that will retry the HTTP request until 1000 requests have failed. The rate limiter also applies to the retries so at most one request can happen per second, less if the rate limiter is being used for other requests.
