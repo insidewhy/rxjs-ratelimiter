@@ -4,7 +4,7 @@
 
 An rxjs websocket library to facilitate dealing with rate limited resources (say, external REST APIs). Great for use with [@angular/http](https://www.npmjs.com/package/@angular/http).
 
-This library is [fully tested](src/index.spec.js) using rxjs's [marble tests](https://github.com/ReactiveX/rxjs/blob/master/doc/writing-marble-tests.md) for assertions and rxjs's [TestScheduler](http://reactivex.io/rxjs/file/es6/testing/TestScheduler.js.html) to provide virtual time scheduling.
+This library is [fully tested](src/index.spec.ts) using rxjs's [marble tests](https://github.com/ReactiveX/rxjs/blob/master/doc/writing-marble-tests.md) for assertions and rxjs's [TestScheduler](http://reactivex.io/rxjs/file/es6/testing/TestScheduler.js.html) to provide virtual time scheduling.
 
 ## How to install
 
