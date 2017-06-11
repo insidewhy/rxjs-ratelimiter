@@ -4,7 +4,7 @@
 
 An rxjs library to facilitate dealing with rate limited resources (say, external REST APIs). Great for use with [@angular/http](https://www.npmjs.com/package/@angular/http).
 
-This library is [fully tested](src/index.spec.ts) using rxjs's [marble tests](https://github.com/ReactiveX/rxjs/blob/master/doc/writing-marble-tests.md) for assertions and rxjs's [TestScheduler](http://reactivex.io/rxjs/file/es6/testing/TestScheduler.js.html) to provide virtual time scheduling.
+This library is [fully tested](src/index.spec.ts) using rxjs's [marble testing](https://github.com/ReactiveX/rxjs/blob/master/doc/writing-marble-tests.md) and rxjs's [TestScheduler](http://reactivex.io/rxjs/file/es6/testing/TestScheduler.js.html) to provide virtual time scheduling.
 
 ## How to install
 
@@ -44,7 +44,7 @@ export class RateLimitedApi {
 
 ## Retrying requests
 
-The rate limiter introduces the delay lazily at subscription time. This means that rxjs operators that can resubscribe such as [retry](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-retry) will also have their retries rate limited.
+The rate limiter introduces the delay lazily at subscription time so resubscriptions caused by rxjs operators such as [retry](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-retry) will also be subject to rate limitation.
 
 ```javascript
 this.rateLimiter.limit(
