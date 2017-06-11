@@ -39,7 +39,7 @@ export class RateLimitedApi {
 }
 ```
 
-`rateLimiter.limit` returns an observable that rate limits the subscription to the passed observable. To understand how this works it is important to realise that cold observables (such as those created by `http.get` etc.) create requests lazily when subscribed to, not when they are instantiated (e.g. when `http.get` is run).
+`rateLimiter.limit` returns an observable that rate limits the subscription to the passed observable. To understand how this works it is important to realise that cold observables create requests lazily when subscribed to, not when they are instantiated. In this example the http request happens when the rate limiter passes a subscription through to the observable returned by `this.http.get`, not at the time that `this.http.get` is called.
 
 ## Retrying requests
 
