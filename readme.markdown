@@ -42,11 +42,10 @@ export class RateLimitedApi {
 
 ## Retrying requests
 
+This can be done with the [retry operator](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-retry) which is built in to rxjs.
+
 ```javascript
-const rateLimiter = new RateLimiter(1, 1000)
-return rateLimiter.limit(
-  this.http.get(`https://some.api/`)
-).retry(999)
+return this.rateLimiter.limit(this.http.get(`https://some.api/`)).retry(999)
 ```
 
 This will produce an observable that will retry the HTTP request until 1000 requests have failed with each retry also being rated limited. In this example each request will happen once per second, less if the rate limiter is being used for other requests.
