@@ -19,7 +19,6 @@ yarn add rxjs-ratelimiter
 This example uses angular 2:
 
 ```javascript
-import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import RateLimiter from 'rxjs-ratelimiter'
