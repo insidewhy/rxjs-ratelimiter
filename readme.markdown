@@ -28,7 +28,7 @@ import RateLimiter from 'rxjs-ratelimiter'
 @Injectable()
 export class RateLimitedApi {
   // allow at most 6 requests every 1000ms
-  rateLimiter = new RateLimiter(6, 1000)
+  private rateLimiter = new RateLimiter(6, 1000)
 
   constructor(private http: Http) {}
 
