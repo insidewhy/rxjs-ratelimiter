@@ -52,4 +52,10 @@ this.rateLimiter.limit(
 ).retry(999)
 ```
 
-This will produce an observable that will retry the HTTP request until 1000 requests have failed. The rate limiter also applies to the retries so at most one request can happen per second, less if the rate limiter is being used for other requests.
+This will produce an observable that will retry the HTTP request until 1000 requests have failed. The rate limiter also applies to the retries so at most one request can happen per second, less if the rate limiter is being used for other requests. To have the rate limiter apply to the initial request but not the retries the following modification can be made:
+
+```javascript
+this.rateLimiter.limit(
+  this.http.get(`https://some.api/`).retry(999)
+)
+```
