@@ -69,7 +69,7 @@ describe('rxjs-ratelimiter', () => {
       // this observable fails the first two times it is subscribed to
       Observable.of(null)
       .mergeMap(() => ++iteration === 3 ? cold('a|') : cold('#'))
-    ).retry(2)).toBe('----a|')
+    ).retry()).toBe('----a|')
     flush()
   })
 })
