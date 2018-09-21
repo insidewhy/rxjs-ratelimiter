@@ -1,4 +1,4 @@
-import {asyncScheduler, Observable, of, Scheduler} from "rxjs";
+import {asyncScheduler, Observable, of, SchedulerLike} from "rxjs";
 import {concatMap, delay, switchMapTo} from "rxjs/operators";
 
 export default class RateLimiter {
@@ -8,7 +8,7 @@ export default class RateLimiter {
   constructor(
     private requestsPerInterval: number,
     private intervalLength: number,
-    private scheduler: Scheduler = asyncScheduler,
+    private scheduler: SchedulerLike = asyncScheduler,
   ) {}
 
   limit<T>(stream: Observable<T>): Observable<T> {
