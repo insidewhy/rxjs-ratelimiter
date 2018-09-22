@@ -1,8 +1,8 @@
-import {assert} from 'chai'
+import { assert } from 'chai'
 import 'mocha'
-import {of} from "rxjs";
-import {mergeMap, retry} from "rxjs/operators";
-import {TestScheduler} from "rxjs/testing";
+import { of } from 'rxjs'
+import { mergeMap, retry } from 'rxjs/operators'
+import { TestScheduler } from 'rxjs/testing'
 
 import RateLimiter from '.'
 
@@ -63,11 +63,14 @@ describe('rxjs-ratelimiter', () => {
     const limiter = new RateLimiter(1, 20, scheduler)
     let iteration = 0
 
-    expect(limiter.limit(
-      // this observable fails the first two times it is subscribed to
-      of(null)
-      .pipe(mergeMap(() => ++iteration === 3 ? cold('a|') : cold('#')))
-    ).pipe(retry())).toBe('----a|')
+    expect(
+      limiter
+        .limit(
+          // this observable fails the first two times it is subscribed to
+          of(null).pipe(mergeMap(() => (++iteration === 3 ? cold('a|') : cold('#')))),
+        )
+        .pipe(retry()),
+    ).toBe('----a|')
     flush()
   })
 })
