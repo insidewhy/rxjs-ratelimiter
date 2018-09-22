@@ -1,6 +1,6 @@
 {
   "name": "rxjs-ratelimiter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "rxjs 6 rate limiter",
   "main": "lib/index.js",
   "typings": "lib/index",
@@ -24,23 +24,28 @@
     "mocha": "mocha lib/*.spec.js",
     "mocha:watch": "npm run mocha -- -w",
     "watch": "concurrently 'npm run build:watch' 'npm run mocha:watch'",
-    "prepublish": "npm run build",
-    "precommit": "pretty-quick --staged"
+    "prepublish": "npm run build"
+  },
+  "husky": {
+    "hooks": {
+      "precommit": "pretty-quick --staged"
+    }
   },
   "author": "James Pike <github@chilon.net>",
   "license": "ISC",
-  "dependencies": {
-    "rxjs": "^6.3.2"
+  "peerDependencies": {
+    "rxjs": "^6"
   },
   "devDependencies": {
     "@types/chai": "^4.0.0",
-    "@types/mocha": "^2.2.41",
+    "@types/mocha": "^5.2.5",
     "chai": "^4.0.2",
-    "concurrently": "^3.4.0",
-    "husky": "^0.14.3",
+    "concurrently": "^4.0.1",
+    "husky": "^1.0.0-rc.15",
+    "mocha": "^5.2.0",
     "prettier": "^1.13.4",
     "pretty-quick": "^1.6.0",
-    "mocha": "^3.4.2",
-    "typescript": "^2.3.4"
+    "rxjs": "^6.3.2",
+    "typescript": "^3.0.3"
   }
 }
