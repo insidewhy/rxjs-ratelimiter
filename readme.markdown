@@ -34,7 +34,7 @@ export class RateLimitedApi {
 
   makeRequest(path: string): Promise<Response> {
     return this.rateLimiter.limit(
-      this.http.get(`https://some.api/${path}`)
+      this.http.get(`https://my.api/${path}`)
     ).toPromise()
   }
 }
@@ -44,10 +44,12 @@ export class RateLimitedApi {
 
 ## Retrying requests
 
-The rate limiter introduces the delay lazily at subscription time so resubscriptions caused by rxjs operators such as [retry](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-retry) will also be subject to rate limitation.
+The lazy nature of the rate limited observables returned by the rate limiter enables a number of other useful features, one of the most notable of these is that resubscriptions by operators chained from rate limited observables (such as [retry](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-retry)) will also be subject to rate limitation.
 
 ```javascript
-this.rateLimiter.limit(this.http.get(`https://some.api/`)).pipe(retry())
+this.rateLimiter.limit(
+  this.http.get(`https://my-api.co/`)
+).pipe(retry())
 ```
 
 This will produce an observable that will retry the HTTP request until it succeeds. The rate limiter also applies to the retries so at most one request can happen per second, less if the rate limiter is being used for other requests. To have the rate limiter apply to the initial request but not the retries the following modification can be made:
@@ -55,5 +57,3 @@ This will produce an observable that will retry the HTTP request until it succee
 ```javascript
 this.rateLimiter.limit(this.http.get(`https://some.api/`).pipe(retry()))
 ```
-
-This is probably a bad idea.
