@@ -1,10 +1,8 @@
+import {assert} from 'chai'
 import 'mocha'
-import { Observable } from 'rxjs/Observable'
-import { TestScheduler } from 'rxjs/testing/TestScheduler'
-import 'rxjs/add/observable/of'
-import 'rxjs/add/operator/mergeMap'
-import 'rxjs/add/operator/retry'
-import { assert } from 'chai'
+import {of} from "rxjs";
+import {mergeMap, retry} from "rxjs/operators";
+import {TestScheduler} from "rxjs/testing";
 
 import RateLimiter from '.'
 
@@ -22,7 +20,7 @@ describe('rxjs-ratelimiter', () => {
 
   it('queues subscriptions according to rate limit of 1 request per 10 ticks', () => {
     const limiter = new RateLimiter(1, 10, scheduler)
-    const limitObservable = value => limiter.limit(Observable.of(value))
+    const limitObservable = value => limiter.limit(of(value))
 
     expect(limitObservable('a')).toBe('(a|)')
     expect(limitObservable('b')).toBe('-(b|)')
@@ -32,7 +30,7 @@ describe('rxjs-ratelimiter', () => {
 
   it('queues subscriptions according to rate limit of 2 requests per 10 ticks', () => {
     const limiter = new RateLimiter(2, 10, scheduler)
-    const limitObservable = value => limiter.limit(Observable.of(value))
+    const limitObservable = value => limiter.limit(of(value))
 
     expect(limitObservable('a')).toBe('(a|)')
     expect(limitObservable('b')).toBe('(b|)')
@@ -44,7 +42,7 @@ describe('rxjs-ratelimiter', () => {
 
   it('queues subsequent subscriptions according to rate limit of 2 requests per 10 ticks', () => {
     const limiter = new RateLimiter(2, 10, scheduler)
-    const limitObservable = value => limiter.limit(Observable.of(value))
+    const limitObservable = value => limiter.limit(of(value))
 
     expect(limitObservable('a')).toBe('(a|)')
     flush()
@@ -67,9 +65,9 @@ describe('rxjs-ratelimiter', () => {
 
     expect(limiter.limit(
       // this observable fails the first two times it is subscribed to
-      Observable.of(null)
-      .mergeMap(() => ++iteration === 3 ? cold('a|') : cold('#'))
-    ).retry()).toBe('----a|')
+      of(null)
+      .pipe(mergeMap(() => ++iteration === 3 ? cold('a|') : cold('#')))
+    ).pipe(retry())).toBe('----a|')
     flush()
   })
 })

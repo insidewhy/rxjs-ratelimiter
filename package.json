@@ -1,7 +1,7 @@
 {
   "name": "rxjs-ratelimiter",
-  "version": "0.1.1",
-  "description": "rxjs 5 rate limiter",
+  "version": "1.0.0",
+  "description": "rxjs 6 rate limiter",
   "main": "lib/index.js",
   "typings": "lib/index",
   "repository": {
@@ -28,7 +28,7 @@
   "author": "James Pike <github@chilon.net>",
   "license": "ISC",
   "dependencies": {
-    "rxjs": "^5.4.0"
+    "rxjs": "^6.3.2"
   },
   "devDependencies": {
     "@types/chai": "^4.0.0",
