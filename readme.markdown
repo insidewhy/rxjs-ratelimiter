@@ -57,3 +57,7 @@ This will produce an observable that will retry the HTTP request until it succee
 ```javascript
 this.rateLimiter.limit(this.http.get(`https://some.api/`).pipe(retry()))
 ```
+
+## rxjs 5 support
+
+Version 0.1.1 supports rxjs5. Versions 1.0.0 and onward will only support rxjs 6 (and later).
