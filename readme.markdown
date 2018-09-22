@@ -44,7 +44,7 @@ export class RateLimitedApi {
 
 ## Retrying requests
 
-The lazy nature of the rate limited observables returned by the rate limiter enables a number of other useful features, one of the most notable of these is that resubscriptions by operators chained from rate limited observables (such as [retry](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-retry)) will also be subject to rate limitation.
+A consequence of the lazy nature of rate limited observable is that resubscriptions by operators chained from them (such as [retry](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-retry)) will also be subject to rate limitation.
 
 ```javascript
 this.rateLimiter.limit(
