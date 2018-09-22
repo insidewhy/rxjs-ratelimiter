@@ -40,24 +40,20 @@ export class RateLimitedApi {
 }
 ```
 
-`rateLimiter.limit` returns an observable that rate limits the subscription to the passed observable. To understand how this works it is important to realise that cold observables create requests lazily when subscribed to, not when they are instantiated. In this example the http request happens when the rate limiter passes a subscription through to the observable returned by `this.http.get`, not at the time that `this.http.get` is called.
+`rateLimiter.limit` returns an observable that rate limits the subscription to the passed observable. To understand how this works it is important to realise that cold observables create requests lazily (when subscribed to, not when instantiated). In this example the http request happens when the rate limiter passes a subscription through to the observable returned by `this.http.get`, not at the time that `this.http.get` is called.
 
 ## Retrying requests
 
 The rate limiter introduces the delay lazily at subscription time so resubscriptions caused by rxjs operators such as [retry](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-retry) will also be subject to rate limitation.
 
 ```javascript
-this.rateLimiter.limit(
-  this.http.get(`https://some.api/`)
-).retry()
+this.rateLimiter.limit(this.http.get(`https://some.api/`)).pipe(retry())
 ```
 
 This will produce an observable that will retry the HTTP request until it succeeds. The rate limiter also applies to the retries so at most one request can happen per second, less if the rate limiter is being used for other requests. To have the rate limiter apply to the initial request but not the retries the following modification can be made:
 
 ```javascript
-this.rateLimiter.limit(
-  this.http.get(`https://some.api/`).retry()
-)
+this.rateLimiter.limit(this.http.get(`https://some.api/`).pipe(retry()))
 ```
 
 This is probably a bad idea.
