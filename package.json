@@ -19,11 +19,13 @@
   "scripts": {
     "build": "tsc -p src",
     "build:watch": "tsc -w -p src",
+    "fix": "prettier --write '**/*.{tsx,ts}'",
     "test": "npm run build && npm run mocha",
     "mocha": "mocha lib/*.spec.js",
     "mocha:watch": "npm run mocha -- -w",
     "watch": "concurrently 'npm run build:watch' 'npm run mocha:watch'",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "precommit": "pretty-quick --staged"
   },
   "author": "James Pike <github@chilon.net>",
   "license": "ISC",
@@ -35,6 +37,9 @@
     "@types/mocha": "^2.2.41",
     "chai": "^4.0.2",
     "concurrently": "^3.4.0",
+    "husky": "^0.14.3",
+    "prettier": "^1.13.4",
+    "pretty-quick": "^1.6.0",
     "mocha": "^3.4.2",
     "typescript": "^2.3.4"
   }
