@@ -1,6 +1,6 @@
 # rxjs-ratelimiter
 
-[![build status](https://circleci.com/gh/ohjames/rxjs-ratelimiter.png)](https://circleci.com/gh/ohjames/rxjs-ratelimiter)
+[![build status](https://circleci.com/gh/ohjames/rxjs-ratelimiter.png)](https://circleci.com/gh/ohjames/rxjs-ratelimiter) [![Greenkeeper badge](https://badges.greenkeeper.io/ohjames/rxjs-ratelimiter.svg)](https://greenkeeper.io/)
 
 An rxjs library to facilitate dealing with rate limited resources (say, external REST APIs). Great for use with [@angular/http](https://www.npmjs.com/package/@angular/http).
 
