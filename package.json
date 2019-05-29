@@ -46,6 +46,6 @@
     "prettier": "1.17.1",
     "pretty-quick": "1.11.0",
     "rxjs": "6.5.2",
-    "typescript": "3.4.5"
+    "typescript": "3.5.1"
   }
 }
