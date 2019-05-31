@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "@types/chai": "4.1.7",
-    "@types/mocha": "5.2.6",
+    "@types/mocha": "5.2.7",
     "chai": "4.2.0",
     "concurrently": "4.1.0",
     "husky": "2.3.0",
