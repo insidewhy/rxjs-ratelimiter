@@ -37,7 +37,7 @@
     "rxjs": "^6"
   },
   "devDependencies": {
-    "@types/chai": "4.1.7",
+    "@types/chai": "4.2.0",
     "@types/mocha": "5.2.7",
     "chai": "4.2.0",
     "concurrently": "4.1.1",
