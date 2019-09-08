@@ -18,7 +18,7 @@
   ],
   "scripts": {
     "build": "tsc -p src",
-    "build:watch": "tsc -w -p src",
+    "build:watch": "npm run build -- -w",
     "fix": "prettier --write '**/*.{tsx,ts}'",
     "test": "npm run build && npm run mocha",
     "mocha": "mocha lib/*.spec.js",
