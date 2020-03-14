@@ -1,6 +1,6 @@
 import { assert } from 'chai'
 import 'mocha'
-import { of } from 'rxjs'
+import { of, scheduled } from 'rxjs'
 import { mergeMap, retry } from 'rxjs/operators'
 import { TestScheduler } from 'rxjs/testing'
 
@@ -20,7 +20,7 @@ describe('rxjs-ratelimiter', () => {
 
   it('queues subscriptions according to rate limit of 1 request per 10 ticks', () => {
     const limiter = new RateLimiter(1, 10, scheduler)
-    const limitObservable = value => limiter.limit(of(value))
+    const limitObservable = (value: string) => limiter.limit(scheduled(value, scheduler))
 
     expect(limitObservable('a')).toBe('(a|)')
     expect(limitObservable('b')).toBe('-(b|)')
@@ -73,4 +73,5 @@ describe('rxjs-ratelimiter', () => {
     ).toBe('----a|')
     flush()
   })
+
 })

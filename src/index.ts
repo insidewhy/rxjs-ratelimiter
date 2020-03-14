@@ -1,5 +1,5 @@
 import { asyncScheduler, Observable, of, SchedulerLike } from 'rxjs'
-import { concatMap, delay, switchMapTo } from 'rxjs/operators'
+import { concatMap, delay, switchMap } from 'rxjs/operators'
 
 export default class RateLimiter {
   private intervalEnds = 0
@@ -29,7 +29,7 @@ export default class RateLimiter {
           return wait > 0
             ? of(null).pipe(
                 delay(wait, this.scheduler),
-                switchMapTo(stream),
+                switchMap(() => stream),
               )
             : stream
         }
