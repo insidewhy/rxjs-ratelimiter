@@ -30,7 +30,7 @@ describe('rxjs-ratelimiter', () => {
 
   it('queues subscriptions according to rate limit of 2 requests per 10 ticks', () => {
     const limiter = new RateLimiter(2, 10, scheduler)
-    const limitObservable = value => limiter.limit(of(value))
+    const limitObservable = (value) => limiter.limit(of(value))
 
     expect(limitObservable('a')).toBe('(a|)')
     expect(limitObservable('b')).toBe('(b|)')
@@ -42,7 +42,7 @@ describe('rxjs-ratelimiter', () => {
 
   it('queues subsequent subscriptions according to rate limit of 2 requests per 10 ticks', () => {
     const limiter = new RateLimiter(2, 10, scheduler)
-    const limitObservable = value => limiter.limit(of(value))
+    const limitObservable = (value) => limiter.limit(of(value))
 
     expect(limitObservable('a')).toBe('(a|)')
     flush()
@@ -73,5 +73,4 @@ describe('rxjs-ratelimiter', () => {
     ).toBe('----a|')
     flush()
   })
-
 })
