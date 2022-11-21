@@ -11,6 +11,5 @@
     "sourceMap": true,
     "target": "es5",
     "skipLibCheck": true
-  },
-  "files": ["index.ts"]
+  }
 }
